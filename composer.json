@@ -1,0 +1,15 @@
+{
+    "name": "joachim-n/drupal-project-contrib-development",
+    "type": "composer-plugin",
+    "autoload": {
+        "psr-4": {
+            "DrupalContribDevelopment\\": ""
+        }
+    },
+    "extra": {
+        "class": "DrupalContribDevelopment\\Plugin"
+    },
+    "require": {
+        "composer-plugin-api": "^2.0"
+    }
+}
