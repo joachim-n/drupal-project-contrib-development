@@ -8,7 +8,7 @@ context of a project.
 ### Swich to clone command
 
 This is a Composer command which switches a Drupal module from being installed
-normally to using a git clone.
+normally to using a git clone that is symlinked into the project.
 
 This allows testing and developing a contrib module in the context of a project.
 
@@ -30,6 +30,9 @@ The Switch to clone command makes this all simple to do:
     2. A Composer path repository is added to composer.json, which points to
        this git clone.
     3. Composer is updated to use the drupal/drupal_cats from this repository.
+       This creates a symlink from the ./repos/drupal_cats folder into the
+       project's ./modules/contrib folder, replacing the previously installed
+       version of the drupal_cats module.
 3. You can now use the git clone of drupal_cats as normal:
     * Make a feature branch for your fix
     * Check out a fork branch from drupal.org to evaluate a fix
