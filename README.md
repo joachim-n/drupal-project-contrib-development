@@ -49,6 +49,17 @@ temporarily switch the git repository to the main development branch or the
 release tag where it was checked out to begin with, in order to satisfy
 Composer's package version requirements.
 
+### Switch back to package release
+
+A command to do this is on the roadmap.
+
+In the meantime, do the following:
+
+1. Remove the Composer path repository for the module from the project's
+   composer.json file. You can leave the git clone in place for a future issue,
+   or in case you need to make further fixes to the feature branch.
+2. Do `composer update drupal/MODULE`.
+
 ## Installation
 
 Install with Composer:
