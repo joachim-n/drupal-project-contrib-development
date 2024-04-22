@@ -69,6 +69,25 @@ module to normal operation.
 The git repository for the module is not changed or deleted. You can change back
 to using this with the `drupal-contrib-switch-clone` command.
 
+### Make and apply patch command
+
+This is a Composer command which applies your work in a module's git clone to
+the project as a patch.
+
+This requires the project to have the `cweagans/composer-patches` package
+installed.
+
+1. Your project has the drupal/drupal_cats package installed with Composer, and
+   a git clone at repos/drupal_cats which has your work in a feature branch.
+2. Do `composer drupal-contrib:apply-patch-from-branch drupal_cats`. This does the
+   following:
+   1. A git diff is taken from the feature branch in repos/drupal_cats to the
+      current version of the installed package.
+   2. The git diff is written to a patch file in /patches.
+   3. Composer is updated to apply the patch to the drupal/drupal_cats package.
+
+You should also contribute your fix back to drupal.org as a merge request!
+
 ## Installation
 
 Install with Composer:

@@ -3,6 +3,7 @@
 namespace DrupalContribDevelopment;
 
 use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
+use DrupalContribDevelopment\Command\ApplyGitCloneChangesAsPatch;
 use DrupalContribDevelopment\Command\SwitchPackageToDownload;
 use DrupalContribDevelopment\Command\SwitchPackageToGitClone;
 
@@ -18,6 +19,7 @@ class CommandProvider implements CommandProviderCapability {
     return [
       new SwitchPackageToGitClone(),
       new SwitchPackageToDownload(),
+      new ApplyGitCloneChangesAsPatch(),
     ];
   }
 
