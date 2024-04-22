@@ -74,6 +74,14 @@ to using this with the `drupal-contrib:switch-clone` command.
 This is a Composer command which applies your work in a module's git clone to
 the project as a patch.
 
+Use this when you have finished work on a bug or a feature in a contrib module,
+and want to apply this fix to your project's codebase. The diff from a
+drupal.org merge request is not always suitable in this scenario, as the merge
+request will be on the development branch of the module, and the diff for this
+might not apply to the version that your project it using. Instead, this command
+takes a diff from the feature branch to the release that your project has
+installed.
+
 This requires the project to have the `cweagans/composer-patches` package
 installed.
 
