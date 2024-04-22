@@ -79,8 +79,8 @@ installed.
 
 1. Your project has the drupal/drupal_cats package installed with Composer, and
    a git clone at repos/drupal_cats which has your work in a feature branch.
-2. Do `composer drupal-contrib:apply-patch-from-branch drupal_cats`. This does the
-   following:
+2. Do `composer drupal-contrib:apply-patch-from-branch drupal_cats`. This does
+   the following:
    1. A git diff is taken from the feature branch in repos/drupal_cats to the
       current version of the installed package.
    2. The git diff is written to a patch file in /patches.
