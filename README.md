@@ -49,16 +49,25 @@ temporarily switch the git repository to the main development branch or the
 release tag where it was checked out to begin with, in order to satisfy
 Composer's package version requirements.
 
-### Switch back to package release
+### Switch back to package release command
 
-A command to do this is on the roadmap.
+This is a Composer command which switches a Drupal module from being installed
+as a symlink to a git clone, to be being installed normally from a package
+release.
 
-In the meantime, do the following:
+Use this command to reverse the effect of the `composer
+drupal-contrib-switch-clone` command, and restore your project's usage of the
+module to normal operation.
 
-1. Remove the Composer path repository for the module from the project's
-   composer.json file. You can leave the git clone in place for a future issue,
-   or in case you need to make further fixes to the feature branch.
-2. Do `composer update drupal/MODULE`.
+1. Your project has the drupal/drupal_cats package installed from a symlink.
+2. Do `composer drupal-contrib:switch-package drupal_cats`. This does the
+   following:
+   1. The Composer path repository which points to the git clone is removed from
+      composer.json.
+   2. Composer is updated to download the drupal/drupal_cats package.
+
+The git repository for the module is not changed or deleted. You can change back
+to using this with the `drupal-contrib-switch-clone` command.
 
 ## Installation
 
