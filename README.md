@@ -23,7 +23,7 @@ and the code you want to fix may have changed in the latest HEAD.
 The Switch to clone command makes this all simple to do:
 
 1. Your project has the drupal/drupal_cats package installed with Composer.
-2. Do `composer drupal-contrib-switch-clone drupal_cats`. This does the
+2. Do `composer drupal-contrib:switch-clone drupal_cats`. This does the
    following:
     1. The drupal_cats git repository is cloned into the ./repos folder in your
        project.
@@ -56,7 +56,7 @@ as a symlink to a git clone, to be being installed normally from a package
 release.
 
 Use this command to reverse the effect of the `composer
-drupal-contrib-switch-clone` command, and restore your project's usage of the
+drupal-contrib:switch-clone` command, and restore your project's usage of the
 module to normal operation.
 
 1. Your project has the drupal/drupal_cats package installed from a symlink.
@@ -67,7 +67,7 @@ module to normal operation.
    2. Composer is updated to download the drupal/drupal_cats package.
 
 The git repository for the module is not changed or deleted. You can change back
-to using this with the `drupal-contrib-switch-clone` command.
+to using this with the `drupal-contrib:switch-clone` command.
 
 ### Make and apply patch command
 
