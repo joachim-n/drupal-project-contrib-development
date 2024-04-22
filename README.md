@@ -98,7 +98,5 @@ composer require joachim-n/drupal-project-contrib-development
 
 ## Roadmap
 
-* Add a command to switch the package back to distribution version.
-* Add a command to create a local patch from a feature branch and add it to
-  Composer.
+* Get the issue title to use in the patch name and composer.json description.
 * Add other useful things.
