@@ -11,8 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 // Development: this makes symfony var-dumper work.
 // See https://github.com/composer/composer/issues/7911
-// For FKW reasons this needs Composer to be run at vendor/bin/composer.
-// require_once 'vendor/symfony/var-dumper/Resources/functions/dump.php';
+// require_once './vendor/autoload.php';
 
 /**
  * Switches a project to use a git clone of a Drupal contrib module.
