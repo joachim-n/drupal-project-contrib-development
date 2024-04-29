@@ -28,7 +28,9 @@ The Switch to clone command makes this all simple to do:
     1. The drupal_cats git repository is cloned into the ./repos folder in your
        project.
     2. A Composer path repository is added to composer.json, which points to
-       this git clone.
+       this git clone. This should *not* be added to version control; it is only
+       needed temporarily while you work on code in the contrib module's git
+       clone.
     3. Composer is updated to use the drupal/drupal_cats from this repository.
        This creates a symlink from the ./repos/drupal_cats folder into the
        project's ./modules/contrib folder, replacing the previously installed
