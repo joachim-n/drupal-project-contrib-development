@@ -193,6 +193,8 @@ class SwitchPackageToGitClone extends BaseCommand {
       }
       $repositories_command = "composer config repositories.$module_name '" . json_encode($repositories_command_json_data) . "'";
       exec($repositories_command);
+
+      $output->writeln("Adding a path repository for $module_name to the project composer.json file. You should *not* commit this change.");
     }
 
     if ($is_installed) {
