@@ -8,6 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// ARGH can't do this because of https://github.com/symfony/symfony/issues/39368.
+// require_once './vendor/autoload.php';
+// include_once './vendor/symfony/var-dumper/Resources/functions/dump.php';
+
 class ApplyGitCloneChangesAsPatch extends BaseCommand {
 
   /**
@@ -134,12 +138,25 @@ class ApplyGitCloneChangesAsPatch extends BaseCommand {
 
     $io->text("Writing patch file to patches/{$patch_name} containing diff from the current branch to $installed_tag. You should commit this file to version control.");
 
+    // The key to use in the composer.json patches array.
+    $new_patch_key = "{$issue_number} - {$patch_description}";
+
+    // Determine if a patch for this issue is already applied.
+    $extra = $composer->getPackage()->getExtra();
+    $applied_patches = $extra['patches'][$package_name] ?? [];
+    foreach (array_keys($applied_patches) as $patch_key) {
+      // TODO: Brittle, use preg_match().
+      if (str_contains($patch_key, $issue_number)) {
+        $new_patch_key = $patch_key;
+      }
+    }
+
     // Need to merge as JSON because the `config` command only supports nesting
     // up to 3 levels.
     // The issue number key can't be just the issue number as that goes wrong;
     // see https://github.com/composer/composer/issues/11945.
     // composer config extra.patches.drupal/typogrify --merge --json '{"3398815 - todo":"patches/typogrify.3398815.patch"}'
-    $declare_patch_command = "composer config extra.patches.{$package_name} --merge --json '{\"{$issue_number} - {$patch_description}\":\"patches/{$patch_name}\"}'";
+    $declare_patch_command = "composer config extra.patches.{$package_name} --merge --json '{\"{$new_patch_key}\":\"patches/{$patch_name}\"}'";
     exec($declare_patch_command);
 
     $io->text("Adding patch file patches/{$patch_name} to the project composer.json. You should commit this change to version control.");
