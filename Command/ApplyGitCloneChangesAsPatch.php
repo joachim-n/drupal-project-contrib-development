@@ -122,19 +122,23 @@ class ApplyGitCloneChangesAsPatch extends BaseCommand {
 
     file_put_contents("patches/{$patch_name}", $git_diff_result);
 
+    $io->text("Writing patch file to patches/{$patch_name} containing diff from the current branch to $installed_tag. You should commit this file to version control.");
+
     // Need to merge as JSON because the `config` command only supports nesting
     // up to 3 levels.
     // The issue number key can't be just the issue number as that goes wrong;
     // see https://github.com/composer/composer/issues/11945.
     // composer config extra.patches.drupal/typogrify --merge --json '{"3398815 - todo":"patches/typogrify.3398815.patch"}'
-    $declare_patch_command = "composer config extra.patches.{$package_name} --merge --json '{\"{$issue_number} - todo add description\":\"patches/{$patch_name}\"}'";
+    $declare_patch_command = "composer config extra.patches.{$package_name} --merge --json '{\"{$issue_number} - {$patch_description}\":\"patches/{$patch_name}\"}'";
     exec($declare_patch_command);
 
-    $output->writeln("Updating Composer to apply the patch.");
+    $io->text("Adding patch file patches/{$patch_name} to the project composer.json. You should commit this change to version control.");
+
+    $io->text("Updating Composer to apply the patch.");
 
     exec("composer update --lock");
 
-    $output->writeln("The patch has been applied. You should add 'patches/{$patch_name}' and the changes to 'composer.json' to your project's version control.");
+    $io->text("The patch has been applied.");
 
     return 0;
   }
