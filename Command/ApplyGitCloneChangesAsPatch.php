@@ -112,7 +112,17 @@ class ApplyGitCloneChangesAsPatch extends BaseCommand {
 
     $issue_number = $matches[1];
 
-    // TODO: get the issue name from d.org!
+    // Get the issue node title from drupal.org.
+    $response = file_get_contents("https://www.drupal.org/api-d7/node/{$issue_number}.json");
+    if ($response === FALSE) {
+      $io->warning("Failed getting node {$issue_number} from drupal.org.");
+      $patch_description = 'todo add description';
+    }
+    else {
+      $issue_node_data = json_decode($response);
+      $patch_description = $issue_node_data->title;
+    }
+
     $patch_name = "{$module_name}.{$issue_number}.patch";
 
     // Create the patches folder if necessary.
