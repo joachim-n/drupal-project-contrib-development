@@ -159,6 +159,15 @@ class SwitchPackageToGitClone extends BaseCommand {
       }
 
       $output->writeln($success_message);
+
+      // Add a git tag at the installed version.
+      if ($is_installed) {
+        chdir($module_repo_path);
+        exec('git tag -f "PROJECT-VERSION"');
+
+        chdir($original_dir);
+        $output->writeln("Created a git tag 'PROJECT-VERSION' to mark the version which was installed as a package. You should use this as a branching point for local feature branches to make patches to apply to the project.");
+      }
     }
 
     // Most Drupal modules don't have a composer.json in the git repository,
