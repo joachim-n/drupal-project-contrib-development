@@ -214,7 +214,7 @@ class SwitchPackageToGitClone extends BaseCommand {
     else {
       $output->writeln("Installing {$package_name} from the git clone path repository.");
 
-      exec("composer require {$package_name}");
+      exec("composer require {$package_name}:@dev");
     }
 
     // TODO! Check Composer didn't output any errors!
