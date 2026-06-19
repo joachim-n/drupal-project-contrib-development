@@ -6,6 +6,7 @@ use Composer\Command\BaseCommand;
 use DrupalContribDevelopment\Enum\GitCloneHead;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -42,7 +43,13 @@ class SwitchPackageToGitClone extends BaseCommand {
   protected function configure(): void {
     $this->setName('drupal-contrib:switch-clone')
       ->setAliases(['dc:clone'])
-      ->addArgument('module', InputArgument::REQUIRED, 'Module name');
+      ->addArgument('module', InputArgument::REQUIRED, 'Module name')
+      ->addOption(
+        'maintainer',
+        'm',
+        InputOption::VALUE_NONE,
+        'Clone the module as a maintainer.'
+      );
   }
 
   /**
@@ -98,25 +105,34 @@ class SwitchPackageToGitClone extends BaseCommand {
       $io->note("Git clone for $module_name already exists in the 'repos' directory.");
     }
     else {
+      // Determine the git repository URL, for either maintainer or
+      // non-maintainer.
+      if ($input->getOption('maintainer')) {
+        $git_url = "git@git.drupal.org:project/{$module_name}.git";
+      }
+      else {
+        $git_url = "https://git.drupalcode.org/project/{$module_name}.git";
+      }
+
       if ($is_installed) {
         // If the project is already installed in the project with Composer,
         // then clone it to the same version that is currently installed with
         // Composer.
         if ($git_clone_head == GitCloneHead::SpecificBranch) {
-          $git_command = "git clone -b {$installed_tag} https://git.drupalcode.org/project/{$module_name}.git";
+          $git_command = "git clone -b {$installed_tag} {$git_url}";
 
           $success_message = "Cloned $module_name into the 'repos' directory at $installed_version.";
         }
         else {
           // We can't specific a SHA in the clone command, so we'll switch to
           // that afterwards.
-          $git_command = "git clone https://git.drupalcode.org/project/{$module_name}.git";
+          $git_command = "git clone {$git_url}";
 
           $success_message = "Cloned $module_name into the 'repos' directory at $installed_tag.";
         }
       }
       else {
-        $git_command = "git clone https://git.drupalcode.org/project/{$module_name}.git";
+        $git_command = "git clone {$git_url}";
         $success_message = "Cloned $module_name into the 'repos' directory at the default branch.";
 
         // TODO: default branch might not be compatible with core!
@@ -144,7 +160,7 @@ class SwitchPackageToGitClone extends BaseCommand {
       proc_close($process);
 
       if (str_contains($errors, 'fatal')) {
-        $io->error("Problem cloning from https://git.drupalcode.org/project/{$module_name}.git. Git error output follows:");
+        $io->error("Problem cloning from {$git_url}. Git error output follows:");
         $io->block($errors);
 
         return 1;
